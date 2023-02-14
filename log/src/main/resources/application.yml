@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/saessak
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://mysql.cwcmryyk9nvs.ap-northeast-2.rds.amazonaws.com:3306/saessak_java?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: saessakjava
+    password: saessak1004
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
