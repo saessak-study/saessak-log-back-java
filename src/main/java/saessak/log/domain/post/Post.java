@@ -21,5 +21,12 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "user_idx")
     private User user;
 
+    private Post(User user) {
+        this.user = user;
+    }
+
+    public static Post from(User user) {
+        return new Post(user);
+    }
 
 }
