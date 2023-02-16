@@ -1,13 +1,11 @@
-package saessak.log.service;
+package saessak.log.post.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.post.dto.PostSaveDto;
-import saessak.log.repository.PostRepository;
-
-import java.util.List;
+import saessak.log.post.Post;
+import saessak.log.post.dto.PostSaveDto;
+import saessak.log.post.repository.PostRepository;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,7 +21,8 @@ public class PostService {
         return savedPost.getId();
     }
 
-    public List<Post> findPosts() {
-        return postRepository.findAll();
+    public void findPost(Long postId) {
+//        return postRepository.findById(postId).orElseThrow();
+
     }
 }

@@ -1,32 +1,28 @@
-package saessak.log.domain.comment;
+package saessak.log.reaction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.BaseTimeEntity;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.user.User;
+import saessak.log.post.Post;
+import saessak.log.user.User;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment extends BaseTimeEntity {
+public class Reaction {
 
     @Id
     @GeneratedValue
-    @Column(name = "comment_idx")
+    @Column(name = "reaction_idx")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_idx")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_idx")
     private Post post;
-
-    private String comment;
-
 }

@@ -1,9 +1,9 @@
-package saessak.log.domain.post.dto;
+package saessak.log.post.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.user.User;
+import saessak.log.post.Post;
+import saessak.log.user.User;
 
 @Getter @Setter
 public class PostSaveDto {

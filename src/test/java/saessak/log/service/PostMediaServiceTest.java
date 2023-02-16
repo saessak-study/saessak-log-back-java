@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.domain.post.dto.PostSaveDto;
-import saessak.log.domain.post_media.PostMedia;
-import saessak.log.domain.post_media.dto.PostMediaSaveDto;
-import saessak.log.repository.PostMediaRepository;
+import saessak.log.post.dto.PostSaveDto;
+import saessak.log.post.service.PostService;
+import saessak.log.post_media.PostMedia;
+import saessak.log.post_media.dto.PostMediaSaveDto;
+import saessak.log.post_media.repository.PostMediaRepository;
+import saessak.log.post_media.service.PostMediaService;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest

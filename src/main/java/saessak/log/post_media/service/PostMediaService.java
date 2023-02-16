@@ -1,13 +1,13 @@
-package saessak.log.service;
+package saessak.log.post_media.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.post_media.PostMedia;
-import saessak.log.domain.post_media.dto.PostMediaSaveDto;
-import saessak.log.repository.PostMediaRepository;
-import saessak.log.repository.PostRepository;
+import saessak.log.post.Post;
+import saessak.log.post_media.PostMedia;
+import saessak.log.post_media.dto.PostMediaSaveDto;
+import saessak.log.post_media.repository.PostMediaRepository;
+import saessak.log.post.repository.PostRepository;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

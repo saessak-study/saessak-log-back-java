@@ -1,9 +1,9 @@
-package saessak.log.domain.post_media.dto;
+package saessak.log.post_media.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.post_media.PostMedia;
+import saessak.log.post.Post;
+import saessak.log.post_media.PostMedia;
 
 @Getter
 @Setter
