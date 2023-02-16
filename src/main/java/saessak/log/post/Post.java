@@ -7,6 +7,8 @@ import saessak.log.post_media.PostMedia;
 import saessak.log.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,12 +23,6 @@ public class Post extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_idx")
     private User user;
-
-    @OneToMany(mappedBy = "post")
-    private PostMedia postMedia;
-
-    @OneToMany(mappedBy = "post")
-    private Comment comment;
 
     private Post(User user) {
         this.user = user;
