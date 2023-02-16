@@ -1,4 +1,4 @@
-package saessak.log.domain;
+package saessak.log;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

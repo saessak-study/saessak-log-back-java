@@ -1,29 +1,28 @@
-package saessak.log.domain.post_media;
+package saessak.log.reaction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.post.Post;
+import saessak.log.post.Post;
+import saessak.log.user.User;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class PostMedia {
+public class Reaction {
 
     @Id
     @GeneratedValue
-    @Column(name = "media_idx")
+    @Column(name = "reaction_idx")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "user_idx")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "post_idx")
     private Post post;
-
-    private String imageFile;
-
-    private String postText;
-
-
 }
