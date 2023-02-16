@@ -37,7 +37,7 @@ class PostMediaServiceTest {
 
         //when
         Long savedPostMediaId = postMediaService.savePostMedia(savedPostId, postMediaSaveDto);
-        PostMedia postMedia = postMediaRepository.findById(savedPostMediaId).get();
+        PostMedia postMedia = postMediaRepository.findById(savedPostMediaId).orElseThrow();
 
         //then
         assertThat(postMedia.getId()).isEqualTo(savedPostMediaId);

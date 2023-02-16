@@ -4,6 +4,7 @@ import lombok.*;
 import saessak.log.BaseTimeEntity;
 import saessak.log.comment.Comment;
 import saessak.log.post_media.PostMedia;
+import saessak.log.reaction.Reaction;
 import saessak.log.user.User;
 
 import javax.persistence.*;
@@ -23,6 +24,15 @@ public class Post extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_idx")
     private User user;
+
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+    private PostMedia postMedia;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<Reaction> reactions = new ArrayList<>();
 
     private Post(User user) {
         this.user = user;
