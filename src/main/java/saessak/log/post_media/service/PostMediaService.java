@@ -20,7 +20,8 @@ public class PostMediaService {
     @Transactional
     public Long savePostMedia(Long postId, PostMediaSaveDto postMediaSaveDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException());
-        PostMedia postMedia = postMediaSaveDto.toEntity(post);
+        PostMedia postMedia = postMediaSaveDto.toEntity();
+        postMedia.belongToPost(post);
         PostMedia savedPostMedia = postMediaRepository.save(postMedia);
         return savedPostMedia.getId();
     }

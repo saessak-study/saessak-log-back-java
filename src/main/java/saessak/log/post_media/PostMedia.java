@@ -33,11 +33,16 @@ public class PostMedia {
         this.postText = postText;
     }
 
-    public static PostMedia of(Post post, String imageFile, String postText) {
+    public static PostMedia of(String imageFile, String postText) {
         return PostMedia.builder()
-            .post(post)
             .imageFile(imageFile)
             .postText(postText)
             .build();
+    }
+
+    //연관관계 편의 메서드/
+    public void belongToPost(Post post) {
+        this.post = post;
+        post.createPostMedia(this);
     }
 }
