@@ -1,6 +1,7 @@
 package saessak.log.post_media;
 
 import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import saessak.log.post.Post;
@@ -25,5 +26,25 @@ public class PostMedia {
 
     private String postText;
 
+
+    @Builder
+    private PostMedia(Post post, String imageFile, String postText) {
+        this.post = post;
+        this.imageFile=imageFile;
+        this.postText = postText;
+    }
+
+    public static PostMedia of(String imageFile, String postText) {
+        return PostMedia.builder()
+            .imageFile(imageFile)
+            .postText(postText)
+            .build();
+    }
+
+    //연관관계 편의 메서드/
+    public void belongToPost(Post post) {
+        this.post = post;
+        post.createPostMedia(this);
+    }
 
 }

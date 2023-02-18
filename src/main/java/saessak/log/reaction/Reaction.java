@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import saessak.log.post.Post;
-import saessak.log.user.domain.User;
+
+import saessak.log.user.User;
+
 
 import javax.persistence.*;
 

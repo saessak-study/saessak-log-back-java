@@ -1,13 +1,15 @@
 package saessak.log.subscription;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.user.domain.User;
+import saessak.log.user.User;
+
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Subscription {
 

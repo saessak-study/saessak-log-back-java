@@ -3,15 +3,19 @@ package saessak.log.comment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import saessak.log.BaseTimeEntity;
 import saessak.log.post.Post;
-import saessak.log.user.domain.User;
+import saessak.log.user.User;
+
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @Entity
+@Table(name = "comment")
 public class Comment extends BaseTimeEntity {
 
     @Id
@@ -27,6 +31,7 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post_idx")
     private Post post;
 
+    @OrderBy("id desc")
     private String comment;
 
 }
