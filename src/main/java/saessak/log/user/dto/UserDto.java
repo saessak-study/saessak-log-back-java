@@ -1,7 +1,7 @@
 package saessak.log.user.dto;
 
 import lombok.*;
-import saessak.log.user.domain.User;
+import saessak.log.user.User;
 
 @Getter
 @Setter

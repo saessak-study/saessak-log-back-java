@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import saessak.log.user.domain.User;
+import saessak.log.user.User;
 
 @Getter
 @Setter

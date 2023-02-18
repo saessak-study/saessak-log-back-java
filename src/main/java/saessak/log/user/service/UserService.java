@@ -3,7 +3,7 @@ package saessak.log.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.user.domain.User;
+import saessak.log.user.User;
 import saessak.log.user.dto.UserDto;
 import saessak.log.user.repository.UserRepository;
 
@@ -28,10 +28,10 @@ public class UserService {
 
     // profileId 중복검사
     public void duplicateUser(User user) {
-        userRepository.findByProfileId(user.getProfileId())
-                .ifPresent(u -> {
-                    throw new IllegalStateException("중복된 아이디입니다.");
-                });
+//        userRepository.findByProfileId(user.getProfileId())
+//                .ifPresent(u -> {
+//                    throw new IllegalStateException("중복된 아이디입니다.");
+//                });
 
     }
 

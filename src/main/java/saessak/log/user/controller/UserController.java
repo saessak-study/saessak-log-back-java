@@ -18,7 +18,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/userJoin")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         userService.join(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
@@ -34,8 +34,7 @@ public class UserController {
     @PostMapping("/userLogin")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserDto> login(
-            @RequestBody UserDto userDto, HttpServletResponse response)
-                 {
-            return
+            @RequestBody UserDto userDto, HttpServletResponse response) {
+        return null;
     }
 }
