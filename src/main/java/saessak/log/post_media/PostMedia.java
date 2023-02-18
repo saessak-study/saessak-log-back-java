@@ -1,9 +1,9 @@
-package saessak.log.domain.post_media;
+package saessak.log.post_media;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.post.Post;
+import saessak.log.post.Post;
 
 import javax.persistence.*;
 

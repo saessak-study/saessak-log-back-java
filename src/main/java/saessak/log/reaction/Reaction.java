@@ -1,10 +1,10 @@
-package saessak.log.domain.reaction;
+package saessak.log.reaction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.user.User;
+import saessak.log.post.Post;
+import saessak.log.user.domain.User;
 
 import javax.persistence.*;
 

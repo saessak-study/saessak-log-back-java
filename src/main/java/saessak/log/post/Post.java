@@ -1,11 +1,10 @@
-package saessak.log.domain.post;
+package saessak.log.post;
 
 import lombok.*;
-import saessak.log.domain.BaseTimeEntity;
-import saessak.log.domain.user.User;
+import saessak.log.BaseTimeEntity;
+import saessak.log.user.domain.User;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

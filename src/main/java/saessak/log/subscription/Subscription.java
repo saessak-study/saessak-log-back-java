@@ -1,8 +1,8 @@
-package saessak.log.domain.subscription;
+package saessak.log.subscription;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.user.User;
+import saessak.log.user.domain.User;
 
 import javax.persistence.*;
 

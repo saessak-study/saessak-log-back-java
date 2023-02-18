@@ -1,11 +1,11 @@
-package saessak.log.domain.comment;
+package saessak.log.comment;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import saessak.log.domain.BaseTimeEntity;
-import saessak.log.domain.post.Post;
-import saessak.log.domain.user.User;
+import saessak.log.BaseTimeEntity;
+import saessak.log.post.Post;
+import saessak.log.user.domain.User;
 
 import javax.persistence.*;
 
