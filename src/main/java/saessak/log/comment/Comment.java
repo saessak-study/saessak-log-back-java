@@ -8,6 +8,7 @@ import saessak.log.BaseTimeEntity;
 import saessak.log.post.Post;
 import saessak.log.user.User;
 
+
 import javax.persistence.*;
 
 @Getter

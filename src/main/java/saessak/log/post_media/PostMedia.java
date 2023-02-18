@@ -1,6 +1,7 @@
 package saessak.log.post_media;
 
 import lombok.AccessLevel;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class PostMedia {
 
     private String postText;
 
+
     @Builder
     private PostMedia(Post post, String imageFile, String postText) {
         this.post = post;
@@ -45,4 +47,5 @@ public class PostMedia {
         this.post = post;
         post.createPostMedia(this);
     }
+
 }
