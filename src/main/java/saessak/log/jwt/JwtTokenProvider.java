@@ -19,7 +19,6 @@ public class JwtTokenProvider {
     private final long accessTokenValidityInMilliseconds = 8640000;
 
     // 만료기간은 일단 하루.
-
     private final long refreshTokenValidityInMilliseconds = 86400000;
 
     //payload 에 뭐로 할지. 유저의 등록한 아이디??

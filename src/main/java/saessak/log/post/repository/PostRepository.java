@@ -13,6 +13,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "from Post p left join p.postMedia pm " +
         "left join p.comments c " +
         "left join p.reactions r " +
-        "group by p.id")
-    List<PostMainDto> findAllPostMainDto();
+        "group by p.id " +
+        "order by count(c)")
+    List<PostMainDto> findAllPostMainDtoOrderByLikeCount();
 }

@@ -6,7 +6,6 @@ import saessak.log.post.Post;
 import saessak.log.post_media.PostMedia;
 
 @Getter
-@Setter
 public class PostMediaSaveDto {
 
     private String imageFile;
