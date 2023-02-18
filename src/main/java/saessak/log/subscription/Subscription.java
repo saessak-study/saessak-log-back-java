@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import saessak.log.user.User;
 
+
 import javax.persistence.*;
 
 @Getter
