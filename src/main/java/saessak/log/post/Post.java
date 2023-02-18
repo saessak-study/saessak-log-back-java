@@ -42,4 +42,8 @@ public class Post extends BaseTimeEntity {
         return new Post(user);
     }
 
+    //연관관계 편의 메서드/
+    public void createPostMedia(PostMedia postMedia) {
+        this.postMedia = postMedia;
+    }
 }

@@ -26,7 +26,7 @@ public class PostService {
     }
 
     public PostResponseDto findAllPosts() {
-        List<PostMainDto> postMainDtoList = postRepository.findAllPostMainDto();
+        List<PostMainDto> postMainDtoList = postRepository.findAllPostMainDtoOrderByLikeCount();
         return new PostResponseDto(postMainDtoList);
     }
 }

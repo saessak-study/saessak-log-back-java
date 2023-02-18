@@ -6,7 +6,6 @@ import saessak.log.post.Post;
 import saessak.log.post_media.PostMedia;
 
 @Getter
-@Setter
 public class PostMediaSaveDto {
 
     private String imageFile;
@@ -18,7 +17,7 @@ public class PostMediaSaveDto {
         this.postText = postText;
     }
 
-    public PostMedia toEntity(Post post) {
-        return PostMedia.of(post, imageFile, postText);
+    public PostMedia toEntity() {
+        return PostMedia.of(imageFile, postText);
     }
 }
