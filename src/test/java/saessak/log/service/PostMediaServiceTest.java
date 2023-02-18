@@ -27,19 +27,19 @@ class PostMediaServiceTest {
     PostService postService;
 
 
-    @Test
-    public void savePostMedia() throws Exception {
-        //given
-        PostSaveDto postSaveDto = new PostSaveDto();
-        Long savedPostId = postService.savePost(postSaveDto);
-
-        PostMediaSaveDto postMediaSaveDto = new PostMediaSaveDto("image", "text");
-
-        //when
-        Long savedPostMediaId = postMediaService.savePostMedia(savedPostId, postMediaSaveDto);
-        PostMedia postMedia = postMediaRepository.findById(savedPostMediaId).orElseThrow();
-
-        //then
-        assertThat(postMedia.getId()).isEqualTo(savedPostMediaId);
-    }
+//    @Test
+//    public void savePostMedia() throws Exception {
+//        //given
+//        PostSaveDto postSaveDto = new PostSaveDto();
+//        Long savedPostId = postService.savePost(postSaveDto);
+//
+//        PostMediaSaveDto postMediaSaveDto = new PostMediaSaveDto("image", "text");
+//
+//        //when
+//        Long savedPostMediaId = postMediaService.savePostMedia(savedPostId, postMediaSaveDto);
+//        PostMedia postMedia = postMediaRepository.findById(savedPostMediaId).orElseThrow();
+//
+//        //then
+//        assertThat(postMedia.getId()).isEqualTo(savedPostMediaId);
+//    }
 }

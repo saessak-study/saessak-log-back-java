@@ -5,4 +5,6 @@ import saessak.log.user.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByProfileId(String profileId);
+
 }
