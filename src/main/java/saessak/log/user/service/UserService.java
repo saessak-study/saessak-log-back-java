@@ -28,10 +28,10 @@ public class UserService {
 
     // profileId 중복검사
     public void duplicateUser(User user) {
-//        userRepository.findByProfileId(user.getProfileId())
-//                .ifPresent(u -> {
-//                    throw new IllegalStateException("중복된 아이디입니다.");
-//                });
+        List<User> findUser = (List<User>) userRepository.findByProfileId(user.getProfileId());
+        if(!findUser.isEmpty()){
+            throw new IllegalStateException("중복된 아이디입니다.");
+        }
 
     }
 
