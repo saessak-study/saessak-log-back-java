@@ -1,7 +1,10 @@
 package saessak.log.post.repository;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import saessak.log.comment.Comment;
 import saessak.log.post.Post;
 import saessak.log.post.dto.PostMainDto;
 
@@ -24,4 +27,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "group by p.id " +
         "order by count(c) desc")
     List<PostMainDto> findAllPostMainDtoOrderByCommentCount();
+
+
 }

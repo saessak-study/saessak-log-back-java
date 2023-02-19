@@ -8,16 +8,26 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class CommentSaveDto {
+public class CommentViewDto {
 
-    private Long post; // 포스트 idx
-    private Long user; // 코멘트 작성자 idx
-    private String comment; //코멘트 내용
+    private String profileId;
+    private String comment;
+    private LocalDateTime createdDate;
+
+    public CommentViewDto(
+            String profileId,
+            String comment,
+            LocalDateTime createdDate
+    ) {
+        this.profileId = profileId;
+        this.comment = comment;
+        this.createdDate = createdDate;
+    }
 
 }
