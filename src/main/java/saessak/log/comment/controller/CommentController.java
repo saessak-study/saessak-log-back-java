@@ -1,5 +1,6 @@
 package saessak.log.comment.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @ApiOperation(value = "댓글작성")
     @PostMapping("/save-comment")
     public Object saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
@@ -48,6 +50,4 @@ public class CommentController {
         return ResponseEntity.ok(list);
 
     }
-
-
 }
