@@ -31,7 +31,6 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post_idx")
     private Post post;
 
-    @OrderBy("id desc")
     private String comment;
 
 }

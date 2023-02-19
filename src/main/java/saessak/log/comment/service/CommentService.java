@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.comment.Comment;
 import saessak.log.comment.dto.CommentSaveDto;
+import saessak.log.comment.dto.CommentViewDto;
 import saessak.log.comment.repository.CommentRepository;
 import saessak.log.post.Post;
 import saessak.log.post.repository.PostRepository;
-import saessak.log.post_media.PostMedia;
 import saessak.log.user.User;
 import saessak.log.user.repository.UserRepository;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -35,4 +37,9 @@ public class CommentService {
 
         return comment.getId();
     }
+
+    public List<CommentViewDto> infiniteComments(Long postId) {
+        return commentRepository.commentViewDto(postId);
+    }
+
 }
