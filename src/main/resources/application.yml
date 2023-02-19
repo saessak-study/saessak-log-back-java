@@ -12,6 +12,11 @@ spring:
       hibernate:
         format_sql: true
         use-new-id-generator-mappings: false
+        
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 
 logging.level:
   org.hibernate.SQL: debug

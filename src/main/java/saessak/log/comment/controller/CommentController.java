@@ -1,5 +1,6 @@
 package saessak.log.comment.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,10 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @ApiOperation(value = "댓글작성")
     @PostMapping("/save-comment")
     public Object saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
         return ResponseEntity.ok("성공");
     }
-
-
-
 }
