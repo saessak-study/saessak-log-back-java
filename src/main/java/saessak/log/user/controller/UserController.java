@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import saessak.log.user.dto.UserDto;
+import saessak.log.user.dto.UserDuplicateDto;
+import saessak.log.user.dto.UserJoinDto;
+import saessak.log.user.dto.UserLoginDto;
 import saessak.log.user.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,24 +20,35 @@ public class UserController {
     private final UserService userService;
 
     // 회원가입
-    @PostMapping("/userJoin")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        userService.join(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    @PostMapping("/join")
+    public ResponseEntity createUser(@RequestBody UserJoinDto userJoinDto) {
+        userService.join(userJoinDto);
+        return (ResponseEntity) ResponseEntity.ok();
     }
 
+    @PostMapping("/duplicate")
+    public ResponseEntity duplicateProfileId(@RequestBody UserDuplicateDto userDuplicateDto){
+        try{
+            userService.duplicateUser(userDuplicateDto);
+            return (ResponseEntity) ResponseEntity.ok();
+        } catch (IllegalStateException e){
+            return (ResponseEntity) ResponseEntity.badRequest();
+        }
+
+    }
     // 회원정보 수정
-    @PatchMapping("/userUpdate")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<UserDto> update(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         userService.update(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     // 로그인
-    @PostMapping("/userLogin")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserDto> login(
-            @RequestBody UserDto userDto, HttpServletResponse response) {
-        return null;
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserLoginDto userLoginDto) {
+        if(userService.login(userLoginDto)){
+            return (ResponseEntity) ResponseEntity.ok();
+        }
+        return (ResponseEntity) ResponseEntity.badRequest();
     }
 }
