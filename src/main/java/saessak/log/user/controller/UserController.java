@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import saessak.log.user.dto.UserDto;
-import saessak.log.user.dto.UserDuplicateDto;
-import saessak.log.user.dto.UserJoinDto;
-import saessak.log.user.dto.UserLoginDto;
+import saessak.log.user.dto.*;
 import saessak.log.user.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +20,17 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity createUser(@RequestBody UserJoinDto userJoinDto) {
         userService.join(userJoinDto);
-        return (ResponseEntity) ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 
+    // 아이디 중복검사
     @PostMapping("/duplicate")
     public ResponseEntity duplicateProfileId(@RequestBody UserDuplicateDto userDuplicateDto){
         try{
             userService.duplicateUser(userDuplicateDto);
-            return (ResponseEntity) ResponseEntity.ok();
+            return ResponseEntity.ok().build();
         } catch (IllegalStateException e){
-            return (ResponseEntity) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -47,8 +45,24 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserLoginDto userLoginDto) {
         if(userService.login(userLoginDto)){
-            return (ResponseEntity) ResponseEntity.ok();
+            return ResponseEntity.ok().build();
         }
-        return (ResponseEntity) ResponseEntity.badRequest();
+        return ResponseEntity.badRequest().build();
     }
+
+    // 아이디 찾기
+    @GetMapping
+    public ResponseEntity findProfileId(@RequestBody UserFindIdDto userFindIdDto){
+            userService.findProfileId(userFindIdDto);
+            return ResponseEntity.status(HttpStatus.OK).body(userFindIdDto.getProfileId());
+    }
+
+    // 비밀번호 찾기
+    @PostMapping
+    public ResponseEntity findPassword(@RequestBody UserFindPasswordDto userFindPasswordDto) {
+        userService.findPassword(userFindPasswordDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userFindPasswordDto.getNewPassword());
+    }
+
+
 }
