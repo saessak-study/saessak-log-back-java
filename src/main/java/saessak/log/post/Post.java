@@ -50,4 +50,8 @@ public class Post extends BaseTimeEntity {
         this.postMedia = postMedia;
     }
 
+    public void createComments(Comment comment) {
+        this.comments.add(comment);
+    }
+
 }

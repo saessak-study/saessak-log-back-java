@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.post.dto.PostSaveDto;
 import saessak.log.post.service.PostService;
 import saessak.log.post_media.PostMedia;
 import saessak.log.post_media.dto.PostMediaSaveDto;

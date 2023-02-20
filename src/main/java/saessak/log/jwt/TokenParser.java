@@ -1,7 +1,6 @@
 package saessak.log.jwt;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import saessak.log.jwt.dto.TokenToUserDto;
 import saessak.log.user.User;
