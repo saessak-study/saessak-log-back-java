@@ -40,4 +40,7 @@ public class User {
             .build();
     }
 
+    public void changeTempPassword(String resetPassword) {
+        this.password = resetPassword;
+    }
 }

@@ -51,18 +51,16 @@ public class UserController {
     }
 
     // 아이디 찾기
-    @GetMapping
-    public ResponseEntity findProfileId(@RequestBody UserFindIdDto userFindIdDto){
-            userService.findProfileId(userFindIdDto);
-            return ResponseEntity.status(HttpStatus.OK).body(userFindIdDto.getProfileId());
+    @PostMapping("/findId")
+    public ResponseEntity<ResponseFindIdDto> findProfileId(@RequestBody UserFindIdDto userFindIdDto){
+        ResponseFindIdDto profileId = userService.findProfileId(userFindIdDto);
+        return ResponseEntity.status(HttpStatus.OK).body(profileId);
     }
 
     // 비밀번호 찾기
-    @PostMapping
-    public ResponseEntity findPassword(@RequestBody UserFindPasswordDto userFindPasswordDto) {
-        userService.findPassword(userFindPasswordDto);
-        return ResponseEntity.status(HttpStatus.OK).body(userFindPasswordDto.getNewPassword());
+    @PostMapping("/resetPassword")
+    public ResponseEntity<ResponseResetPasswordDto> findPassword(@RequestBody UserFindPasswordDto userFindPasswordDto) {
+        ResponseResetPasswordDto resetPassword = userService.findPassword(userFindPasswordDto);
+        return ResponseEntity.status(HttpStatus.OK).body(resetPassword);
     }
-
-
 }

@@ -6,9 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserFindPasswordDto {
-
     private String name;
     private String profileId;
     private String email;
-    private String newPassword;
+
 }
