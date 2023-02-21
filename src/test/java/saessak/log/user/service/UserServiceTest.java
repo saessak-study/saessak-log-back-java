@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import saessak.log.user.User;
 import saessak.log.user.dto.UserDuplicateDto;
 import saessak.log.user.dto.UserJoinDto;
+import saessak.log.user.dto.UserLoginDto;
 import saessak.log.user.repository.UserRepository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -54,6 +55,10 @@ class UserServiceTest {
 
     }
 
+    @Test
+    void 로그인() {
+        UserLoginDto userLoginDto = new UserLoginDto();
+    }
     @Test
     void findOne() {
     }
