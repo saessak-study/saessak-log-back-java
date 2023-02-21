@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,24 +30,18 @@ public class CommentController {
     private final CommentService commentService;
 
     @ApiOperation(value = "댓글작성")
-    @PostMapping("/save-comment")
+    @PostMapping("/comment")
     public Object saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
         return ResponseEntity.ok("Success");
     }
 
-//    @GetMapping("/comments")
-//    public Object fetchComment() {
-//        List<Comment> list = commentService.fetchCommentList();
-//        return ResponseEntity.ok(list);
-//    }
-
-    @RequestMapping("/infinite-comments")
-    @GetMapping(params = {"post", "limit", "page"})
-    public Object infiniteComments(@RequestParam("post") Long post,
-                                   @RequestParam("limit") int limit,
-                                   @RequestParam("page") int page) {
-        List<CommentViewDto> list = commentService.infiniteComments(post);
+    @GetMapping("/comment/{post}")
+    public Object fetchComment(@PathVariable(value = "post") Long post,
+                               @RequestParam(value = "limit", required = false) Integer limit,
+                               @RequestParam(value = "page", required = false) Integer page
+                               ) {
+        List<CommentViewDto> list = commentService.fetchComments(post);
         return ResponseEntity.ok(list);
 
     }

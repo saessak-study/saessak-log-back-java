@@ -38,7 +38,7 @@ public class CommentService {
         return comment.getId();
     }
 
-    public List<CommentViewDto> infiniteComments(Long postId) {
+    public List<CommentViewDto> fetchComments(Long postId) {
         return commentRepository.commentViewDto(postId);
     }
 
