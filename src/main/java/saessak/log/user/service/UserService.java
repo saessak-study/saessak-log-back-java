@@ -75,7 +75,7 @@ public class UserService {
         return responseResetPasswordDto;
     }
 
-    // 회원정보 수정
+    // 비밀번호 변경
     public void update(UserDto userDto) {
     }
 
