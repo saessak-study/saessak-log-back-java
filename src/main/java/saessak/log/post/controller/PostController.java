@@ -5,13 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import saessak.log.jwt.TokenParser;
 import saessak.log.jwt.dto.TokenToUserDto;
+import saessak.log.post.dto.PostAllResponseDto;
 import saessak.log.post.dto.PostResponseDto;
-import saessak.log.post.dto.PostSaveDto;
 import saessak.log.post.service.PostService;
 import saessak.log.post_media.dto.PostMediaSaveDto;
 import saessak.log.post_media.service.PostMediaService;
 
 @RequiredArgsConstructor
+@RequestMapping("/posts")
 @RestController
 public class PostController {
 
@@ -22,7 +23,7 @@ public class PostController {
     private final TokenParser tokenParser;
 
     //위치는 얘기하고 바꾸기.
-    @PostMapping("/posts/new")
+    @PostMapping("/new")
     public ResponseEntity savePost(@RequestBody PostMediaSaveDto postMediaSaveDto,
                                    @RequestHeader(value = "accessToken") String accessToken) {
 
@@ -33,9 +34,16 @@ public class PostController {
         return (ResponseEntity) ResponseEntity.ok();
     }
 
-    @GetMapping("/")
-    public ResponseEntity mainPosts() {
-        PostResponseDto postResponseDto = postService.findAllPosts();
+    //댓글 순으로 하는거는 요청 url이 달라지는지. 확인해봐야할듯.
+    @GetMapping("/likeCount")
+    public ResponseEntity mainPostsOrderByLikeCount() {
+        PostAllResponseDto postResponseDto = postService.findAllPosts();
+        return ResponseEntity.ok(postResponseDto);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity post(@PathVariable("postId") Long postId) {
+        PostResponseDto postResponseDto = postService.findPost(postId);
         return ResponseEntity.ok(postResponseDto);
     }
 }
