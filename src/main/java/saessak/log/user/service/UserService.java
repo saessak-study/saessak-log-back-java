@@ -2,6 +2,7 @@ package saessak.log.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.user.User;
@@ -17,12 +18,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final BCryptPasswordEncoder encoder;
 
     // 회원가입
     @Transactional
     public Long join(UserJoinDto userJoinDto) {
-        User user = userJoinDto.toEntity();
+
+        User user = User.builder()
+                .profileId(userJoinDto.getProfileId())
+                .email(userJoinDto.getEmail())
+                .name(userJoinDto.getName())
+                .password(encoder.encode(userJoinDto.getPassword()))
+                .build();
         userRepository.save(user);
         return user.getId();
     }

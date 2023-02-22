@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,48 +17,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    private PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails admin = User.withUsername("admin")
-                .password(encoder().encode("adminPass"))
-                .roles("ADMIN")
-                .build();
-        UserDetails user = User.withUsername("user")
-                .password(encoder().encode("userPass"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
-    }
-
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login").permitAll()
-                .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
-//                .hasAnyAuthority("Admin", "Editor", "Salesperson")
-//                .hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .httpBasic().disable() // ui에서 들어오는 것
+                .csrf().disable() // crosssite 기능
+                .cors().and()// crosssite 다른 domain 허용
+                .authorizeRequests()
+                .antMatchers("/user").permitAll() // user 권한 허용
+                .antMatchers("/user/join", "/user/login").permitAll() // join, login 허용
                 .and()
-                .rememberMe().key("AbcdEfghIjklmNopQrsTuvXyz_0123456789")
-                .and()
-                .logout().permitAll();
-
-        http.headers().frameOptions().sameOrigin();
-
-        return http.build();
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용할 경우 사용 가능 할 듯?
+                .and().build();
     }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
-    }
-
 }
