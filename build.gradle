@@ -27,6 +27,8 @@ dependencies {
 	// 랜덤 비밀번호 생성, 비밀번호 암호화(security)
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.7'
+	testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+
 
 	//swagger
 	implementation 'io.springfox:springfox-swagger2:2.9.2'

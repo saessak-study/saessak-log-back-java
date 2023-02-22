@@ -1,9 +1,6 @@
 package saessak.log.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import saessak.log.user.User;
 
 @Getter

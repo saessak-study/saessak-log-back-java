@@ -38,7 +38,7 @@ public class UserService {
     public void duplicateUser(UserDuplicateDto userDuplicateDto) {
         userRepository.findOptionalByProfileId(userDuplicateDto.getProfileId())
                 .ifPresent(u -> {
-                    throw new IllegalStateException("중복된 아이디입니다.");
+                    throw new RuntimeException("중복된 아이디입니다.");
                 });
     }
 
@@ -46,7 +46,7 @@ public class UserService {
     public Boolean login(UserLoginDto userLoginDto) {
         User findUser = userRepository.findOptionalByProfileId(userLoginDto.getProfileId())
                 .orElseThrow();
-        if (findUser.getPassword().equals(userLoginDto.getPassword())) {
+        if (encoder.matches(userLoginDto.getPassword(), findUser.getPassword())) {
             return true;
         }
         return false;
@@ -83,7 +83,15 @@ public class UserService {
     }
 
     // 비밀번호 변경
-    public void update(UserDto userDto) {
+    public void update(ChangePasswordDto changePasswordDto) {
+
+        if(changePasswordDto.getPassword().equals(changePasswordDto.getPasswordChek())){
+            User user = User.builder()
+                    .password(encoder.encode(changePasswordDto.getPassword()))
+                    .build();
+            } else {
+                new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
     }
 
     public Optional<User> findOne(Long userId) {
