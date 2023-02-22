@@ -86,9 +86,11 @@ public class UserService {
     public void update(ChangePasswordDto changePasswordDto) {
 
         if(changePasswordDto.getPassword().equals(changePasswordDto.getPasswordChek())){
-            User user = User.builder()
-                    .password(encoder.encode(changePasswordDto.getPassword()))
-                    .build();
+            User findProfileId = userRepository.findOptionalByProfileId(changePasswordDto.getPassword())
+                    .orElseThrow(()->
+                            new IllegalStateException("등록되지 않은 비밀번호입니다."));
+
+                    findProfileId.changeTempPassword(encoder.encode(changePasswordDto.getPassword()));
             } else {
                 new RuntimeException("비밀번호가 일치하지 않습니다.");
         }

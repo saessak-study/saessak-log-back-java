@@ -18,9 +18,9 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity createUser(@RequestBody UserJoinDto userJoinDto) {
+    public ResponseEntity<String> createUser(@RequestBody UserJoinDto userJoinDto) {
         userService.join(userJoinDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("회원가입이 성공 하였습니다.");
     }
 
     // 아이디 중복검사
