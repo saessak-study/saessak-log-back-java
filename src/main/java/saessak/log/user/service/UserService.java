@@ -2,6 +2,7 @@ package saessak.log.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.user.User;
@@ -85,6 +86,13 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+
+    // 편의 기능 함수 추가 ---아연
+    public String findProfileIdByUserIdx (Long userIndex) {
+        User foundedUser = userRepository.findById(userIndex).orElseThrow(() -> new IllegalArgumentException());
+        return foundedUser.getProfileId();
     }
 
 }
