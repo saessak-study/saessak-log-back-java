@@ -18,41 +18,35 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity createUser(@RequestBody UserJoinDto userJoinDto) {
+    public ResponseEntity<String> createUser(@RequestBody UserJoinDto userJoinDto) {
         userService.join(userJoinDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("회원가입이 성공 하였습니다.");
     }
 
     // 아이디 중복검사
     @PostMapping("/duplicate")
-    public ResponseEntity duplicateProfileId(@RequestBody UserDuplicateDto userDuplicateDto){
-        try{
+    public ResponseEntity duplicateProfileId(@RequestBody UserDuplicateDto userDuplicateDto) {
+        try {
             userService.duplicateUser(userDuplicateDto);
             return ResponseEntity.ok().build();
-        } catch (IllegalStateException e){
-            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-    }
-    // 회원정보 수정
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable("id") long id, @RequestBody UserDto userDto) {
-        userService.update(userDto);
-        return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserLoginDto userLoginDto) {
-        if(userService.login(userLoginDto)){
+        if (userService.login(userLoginDto)) {
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // 아이디 찾기
     @PostMapping("/findId")
-    public ResponseEntity<ResponseFindIdDto> findProfileId(@RequestBody UserFindIdDto userFindIdDto){
+    public ResponseEntity<ResponseFindIdDto> findProfileId(@RequestBody UserFindIdDto userFindIdDto) {
         ResponseFindIdDto profileId = userService.findProfileId(userFindIdDto);
         return ResponseEntity.status(HttpStatus.OK).body(profileId);
     }
@@ -62,5 +56,12 @@ public class UserController {
     public ResponseEntity<ResponseResetPasswordDto> findPassword(@RequestBody UserFindPasswordDto userFindPasswordDto) {
         ResponseResetPasswordDto resetPassword = userService.findPassword(userFindPasswordDto);
         return ResponseEntity.status(HttpStatus.OK).body(resetPassword);
+    }
+
+    // 비밀번호 변경
+    @PatchMapping("/update")
+    public ResponseEntity update(@RequestBody ChangePasswordDto changePasswordDto) {
+        userService.update(changePasswordDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
