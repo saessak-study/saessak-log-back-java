@@ -24,6 +24,16 @@ public class JwtTokenProvider {
     //payload 에 뭐로 할지. 유저의 등록한 아이디??
     //service 에서 로그인시 토큰을 만들고 TokenDto 로 return. 혹은 재발행 (재발행시 validate 실행하고 토큰 다시 생성). refresh 토큰을 갖고있어야함.
     //그럼 게시글 생성, 댓글 생성 등에서 계속 token 을 갖고있는지 확인해야하나?
+
+    //유저컨트롤러에서 사용 -> 로그인이 완료돼서 if문이 실행되면 유저 프로필 아이디로 createToken 해서 토큰 생성.
+    // -> 토큰값을 ResponseEntity로 넘겨줌. TokenDto를 넘겨주면 될듯?.
+
+    //일단 로그인이 필요한 일을 하는 컨트롤러에서 토큰 parser 를 실행. validate를 실행하고, 만약 유효하지 않으면 오류 발생.
+    //유효하다면 토큰으로 profileId를 가져와서 userDto를 반환해줌.
+
+    // 토큰이 만료된것을 프론트에서 확인할 수 있나?
+    // 확인 가능하면 /token/reissue (미정) 을 호출.
+    //reissue 에서는 리프레시 토큰으로 토큰을 다시 만들어서 프론트에 줌.
     public TokenDto createToken(String payload) {
 
         long now = (new Date()).getTime();
