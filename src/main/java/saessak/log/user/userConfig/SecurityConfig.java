@@ -42,9 +42,9 @@ public class SecurityConfig {
 //                .antMatchers(HttpMethod.GET, "/coments", "/posts").authenticated()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용할 경우 사용 가능 할 듯?
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용할 경우 세션을 사용하지 않는다.
                 .and()
-//                .addFilterBefore(new JwtFilter(userService, Key), UsernamePasswordAuthenticationFilter.class) // 토큰인가 전
+//                .addFilterBefore(new JwtFilter(userService, Key), UsernamePasswordAuthenticationFilter.class) // 토큰인가 전 로그인 검증
                 .build();
     }
 }

@@ -9,6 +9,7 @@ public class UserJoinDto {
 
     private String profileId;
     private String password;
+    private String passwordCheck;
     private String name;
     private String email;
 
