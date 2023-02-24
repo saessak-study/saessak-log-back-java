@@ -2,6 +2,7 @@ package saessak.log.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.annotations.NotFound;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,15 +24,18 @@ public class UserService {
     // 회원가입
     @Transactional
     public Long join(UserJoinDto userJoinDto) {
+        if (userJoinDto.getPassword().equals(userJoinDto.getPasswordCheck())) {
+            User user = User.builder()
+                    .profileId(userJoinDto.getProfileId())
+                    .email(userJoinDto.getEmail())
+                    .name(userJoinDto.getName())
+                    .password(encoder.encode(userJoinDto.getPassword()))
+                    .build();
+            userRepository.save(user);
+            return user.getId();
+        }
+        throw new RuntimeException("입력하신 password 가 일치하지 않습니다.");
 
-        User user = User.builder()
-                .profileId(userJoinDto.getProfileId())
-                .email(userJoinDto.getEmail())
-                .name(userJoinDto.getName())
-                .password(encoder.encode(userJoinDto.getPassword()))
-                .build();
-        userRepository.save(user);
-        return user.getId();
     }
 
     // profileId 중복검사
@@ -45,7 +49,9 @@ public class UserService {
     // 로그인
     public Boolean login(UserLoginDto userLoginDto) {
         User findUser = userRepository.findOptionalByProfileId(userLoginDto.getProfileId())
-                .orElseThrow();
+                .orElseThrow(()-> {
+                    throw new IllegalStateException("등록되지 않은 회원입니다.");
+                });
         if (encoder.matches(userLoginDto.getPassword(), findUser.getPassword())) {
             return true;
         }
@@ -69,13 +75,13 @@ public class UserService {
     @Transactional
     public ResponseResetPasswordDto findPassword(UserFindPasswordDto userFindPasswordDto) {
         User findUser = userRepository.findByUserInfo(
-                userFindPasswordDto.getEmail(),
-                userFindPasswordDto.getName(),
-                userFindPasswordDto.getProfileId())
-                .orElseThrow(()->
+                        userFindPasswordDto.getEmail(),
+                        userFindPasswordDto.getName(),
+                        userFindPasswordDto.getProfileId())
+                .orElseThrow(() ->
                         new IllegalStateException("등록되지 않은 회원입니다."));
         String resetPassword = RandomStringUtils.randomAlphabetic(8);
-        findUser.changeTempPassword(resetPassword);
+        findUser.changeTempPassword(encoder.encode(resetPassword));
         ResponseResetPasswordDto responseResetPasswordDto = new ResponseResetPasswordDto();
         responseResetPasswordDto.setResetPassword(resetPassword);
 
@@ -85,17 +91,26 @@ public class UserService {
     // 비밀번호 변경
     public void update(ChangePasswordDto changePasswordDto) {
 
-        if(changePasswordDto.getPassword().equals(changePasswordDto.getPasswordChek())){
+        if (changePasswordDto.getPassword().equals(changePasswordDto.getPasswordChek())) {
             User findProfileId = userRepository.findOptionalByProfileId(changePasswordDto.getPassword())
-                    .orElseThrow(()->
+                    .orElseThrow(() ->
                             new IllegalStateException("등록되지 않은 비밀번호입니다."));
 
-                    findProfileId.changeTempPassword(encoder.encode(changePasswordDto.getPassword()));
-            } else {
-                new RuntimeException("비밀번호가 일치하지 않습니다.");
+            findProfileId.changeTempPassword(encoder.encode(changePasswordDto.getPassword()));
+        } else {
+            new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
     }
 
+    // 마이페이지 유저정보(미완)
+    public UserInformationDto userInformation(UserInformationDto userInformationDto) {
+        Optional<User> findUserInfo = userRepository.findByUserInfo(
+                userInformationDto.getProfileId(),
+                userInformationDto.getEmail(),
+                userInformationDto.getName());
+        
+        return userInformationDto;
+    }
     public Optional<User> findOne(Long userId) {
         return userRepository.findById(userId);
     }

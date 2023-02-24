@@ -30,14 +30,14 @@ public class CommentController {
     private final CommentService commentService;
 
     @ApiOperation(value = "댓글 작성")
-    @PostMapping("/")
+    @PostMapping("/comment")
     public Object saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
         return ResponseEntity.ok("Success");
     }
 
     @ApiOperation(value = "댓글 페이징")
-    @GetMapping("/{post}")
+    @GetMapping("/comment/{post}")
     public Object fetchComment(@PathVariable(value = "post") Long post,
                                @RequestParam(value = "limit", required = false) Integer limit,
                                @RequestParam(value = "page", required = false) Integer page

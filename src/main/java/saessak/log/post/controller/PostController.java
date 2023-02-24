@@ -31,7 +31,7 @@ public class PostController {
         TokenToUserDto tokenToUserDto = tokenParser.parseToken(accessToken);
         Long postId = postService.savePost(tokenToUserDto);
         postMediaService.savePostMedia(postId, postMediaSaveDto);
-        return (ResponseEntity) ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 
     //댓글 순으로 하는거는 요청 url이 달라지는지. 확인해봐야할듯.
