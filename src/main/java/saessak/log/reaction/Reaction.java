@@ -3,6 +3,7 @@ package saessak.log.reaction;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import saessak.log.post.Post;
 
 import saessak.log.user.User;
@@ -11,7 +12,8 @@ import saessak.log.user.User;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @Entity
 public class Reaction {
 
