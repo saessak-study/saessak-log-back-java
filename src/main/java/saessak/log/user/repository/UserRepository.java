@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.profileId = :profileId")
     Optional<User> findOptionalByProfileId(@Param("profileId") String profileId);
+
 }
