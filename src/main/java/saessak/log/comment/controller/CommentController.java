@@ -31,19 +31,19 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 작성")
     @PostMapping("/comment")
-    public Object saveComment(@RequestBody CommentSaveDto commentSaveDto) {
+    public ResponseEntity saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
         return ResponseEntity.ok("Success");
     }
 
     @ApiOperation(value = "댓글 페이징")
     @GetMapping("/comment/{post}")
-    public Object fetchComment(@PathVariable(value = "post") Long post,
-                               @RequestParam(value = "limit", required = false) Integer limit,
-                               @RequestParam(value = "page", required = false) Integer page
+    public ResponseEntity<List<CommentViewDto>> fetchComment(@PathVariable(value = "post") Long post,
+                                                             @RequestParam(value = "limit", required = false) Integer limit,
+                                                             @RequestParam(value = "page", required = false) Integer page
                                ) {
         List<CommentViewDto> list = commentService.fetchComments(post);
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok().body(list);
 
     }
 }

@@ -1,25 +1,13 @@
 package saessak.log.jwt.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
 public class TokenDto {
 
-    private String accessToken;
-    private String refreshToken;
-
-    @Builder
-    private TokenDto(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-    }
-
-    public static TokenDto of(String accessToken, String refreshToken) {
-        return TokenDto.builder()
-            .accessToken(accessToken)
-            .refreshToken(refreshToken)
-            .build();
-    }
+    private String token;
 
 }

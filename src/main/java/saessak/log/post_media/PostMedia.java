@@ -31,7 +31,7 @@ public class PostMedia {
     @Builder
     private PostMedia(Post post, String imageFile, String postText) {
         this.post = post;
-        this.imageFile=imageFile;
+        this.imageFile = imageFile;
         this.postText = postText;
     }
 
