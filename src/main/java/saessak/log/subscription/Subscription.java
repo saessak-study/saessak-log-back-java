@@ -1,16 +1,20 @@
 package saessak.log.subscription;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import saessak.log.user.User;
 
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Subscription {
 
     @Id
@@ -25,4 +29,5 @@ public class Subscription {
     @ManyToOne
     @JoinColumn(name = "from_user_id")
     private User fromUserId;
+
 }

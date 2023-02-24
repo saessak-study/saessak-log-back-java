@@ -119,4 +119,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+
+    // 편의 기능 함수 추가 ---아연
+    public String findProfileIdByUserIdx (Long userIndex) {
+        User foundedUser = userRepository.findById(userIndex).orElseThrow(() -> new IllegalArgumentException());
+        return foundedUser.getProfileId();
+    }
+
 }
