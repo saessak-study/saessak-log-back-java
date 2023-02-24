@@ -13,9 +13,4 @@ import saessak.log.user.User;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
-    @Query("SELECT new saessak.log.subscription.dto.SubscriptionDto(U.id, P.user) "
-        + "FROM User U "
-        + "INNER JOIN Post P "
-        + "ON U.id = P.user")
-    SubscriptionDto subscriptionDto(@Param("user") Long user);
 }
