@@ -2,6 +2,7 @@ package saessak.log.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.annotations.NotFound;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +49,9 @@ public class UserService {
     // 로그인
     public Boolean login(UserLoginDto userLoginDto) {
         User findUser = userRepository.findOptionalByProfileId(userLoginDto.getProfileId())
-                .orElseThrow();
+                .orElseThrow(()-> {
+                    throw new IllegalStateException("등록되지 않은 회원입니다.");
+                });
         if (encoder.matches(userLoginDto.getPassword(), findUser.getPassword())) {
             return true;
         }
@@ -99,6 +102,15 @@ public class UserService {
         }
     }
 
+    // 마이페이지 유저정보(미완)
+    public UserInformationDto userInformation(UserInformationDto userInformationDto) {
+        Optional<User> findUserInfo = userRepository.findByUserInfo(
+                userInformationDto.getProfileId(),
+                userInformationDto.getEmail(),
+                userInformationDto.getName());
+        
+        return userInformationDto;
+    }
     public Optional<User> findOne(Long userId) {
         return userRepository.findById(userId);
     }
