@@ -6,6 +6,8 @@ import org.hibernate.annotations.NotFound;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import saessak.log.jwt.TokenProvider;
+import saessak.log.jwt.dto.TokenDto;
 import saessak.log.user.User;
 import saessak.log.user.dto.*;
 import saessak.log.user.repository.UserRepository;
@@ -20,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
+    private final TokenProvider tokenProvider;
 
     // 회원가입
     @Transactional
@@ -47,15 +50,17 @@ public class UserService {
     }
 
     // 로그인
-    public Boolean login(UserLoginDto userLoginDto) {
+    public TokenDto login(UserLoginDto userLoginDto) {
         User findUser = userRepository.findOptionalByProfileId(userLoginDto.getProfileId())
                 .orElseThrow(()-> {
                     throw new IllegalStateException("등록되지 않은 회원입니다.");
                 });
-        if (encoder.matches(userLoginDto.getPassword(), findUser.getPassword())) {
-            return true;
+
+        if (!encoder.matches(userLoginDto.getPassword(), findUser.getPassword())) {
+            throw new IllegalStateException("비밀번호가 잘못되었습니다.");
         }
-        return false;
+
+        return tokenProvider.createToken(findUser.getId(), findUser.getProfileId());
     }
 
     // 아이디 찾기

@@ -17,12 +17,12 @@ public class PostMediaService {
     private final PostMediaRepository postMediaRepository;
     private final PostRepository postRepository;
 
-    @Transactional
-    public Long savePostMedia(Long postId, PostMediaSaveDto postMediaSaveDto) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException());
-        PostMedia postMedia = postMediaSaveDto.toEntity();
-        postMedia.belongToPost(post);
-        PostMedia savedPostMedia = postMediaRepository.save(postMedia);
-        return savedPostMedia.getId();
-    }
+//    @Transactional
+//    public Long savePostMedia(Long postId, PostMediaSaveDto postMediaSaveDto) {
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException());
+//        PostMedia postMedia = postMediaSaveDto.toEntity();
+//        postMedia.belongToPost(post);
+//        PostMedia savedPostMedia = postMediaRepository.save(postMedia);
+//        return savedPostMedia.getId();
+//    }
 }

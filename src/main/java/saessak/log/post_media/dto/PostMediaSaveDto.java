@@ -1,11 +1,14 @@
 package saessak.log.post_media.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import saessak.log.post.Post;
 import saessak.log.post_media.PostMedia;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostMediaSaveDto {
 
     private String imageFile;
