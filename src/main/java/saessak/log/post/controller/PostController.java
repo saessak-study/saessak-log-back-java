@@ -18,6 +18,7 @@ import saessak.log.user.repository.UserRepository;
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PostController {
 
     private final PostService postService;

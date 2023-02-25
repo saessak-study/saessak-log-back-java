@@ -13,6 +13,7 @@ import saessak.log.user.service.UserService;
 @RestController //  RestController 데이터 전송
 @RequiredArgsConstructor // 생성자
 @RequestMapping(value = "/user")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
