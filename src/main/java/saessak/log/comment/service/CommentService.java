@@ -2,6 +2,7 @@ package saessak.log.comment.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.comment.Comment;
@@ -38,8 +39,8 @@ public class CommentService {
         return comment.getId();
     }
 
-    public List<CommentViewDto> fetchComments(Long postId) {
-        return commentRepository.commentViewDto(postId);
+    public List<CommentViewDto> fetchComments(Long postId, int limit, int page) {
+        return commentRepository.commentViewDto(postId, PageRequest.of(page,limit));
     }
 
 }
