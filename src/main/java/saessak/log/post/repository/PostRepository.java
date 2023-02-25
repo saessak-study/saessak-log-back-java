@@ -1,5 +1,7 @@
 package saessak.log.post.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "left join p.reactions r " +
         "group by p.id " +
         "order by likeCount desc")
-    List<PostMainDto> findAllPostMainDtoOrderByLikeCount();
+    Page<PostMainDto> findAllPostMainDtoOrderByLikeCount(Pageable pageable);
 
     @Query("select new saessak.log.post.dto.PostMainDto(pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
         "from Post p left join p.postMedia pm " +
@@ -29,7 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "left join p.reactions r " +
         "group by p.id " +
         "order by commentCount desc")
-    List<PostMainDto> findAllPostMainDtoOrderByCommentCount();
+    Page<PostMainDto> findAllPostMainDtoOrderByCommentCount(Pageable pageable);
 
     @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, pm.imageFile," +
         " pm.postText, count(r))" +

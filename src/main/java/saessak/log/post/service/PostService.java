@@ -1,6 +1,8 @@
 package saessak.log.post.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.comment.repository.CommentRepository;
@@ -40,13 +42,17 @@ public class PostService {
         return savedPost.getId();
     }
 
-    public PostAllResponseDto findAllPostsByLikeCount() {
-        List<PostMainDto> postMainDtoList = postRepository.findAllPostMainDtoOrderByLikeCount();
+    public PostAllResponseDto findAllPostsByLikeCount(int limit, int page) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<PostMainDto> pagePostMainDto = postRepository.findAllPostMainDtoOrderByLikeCount(pageRequest);
+        List<PostMainDto> postMainDtoList = pagePostMainDto.getContent();
         return new PostAllResponseDto(postMainDtoList);
     }
 
-    public PostAllResponseDto findAllPostsByCommentsCount() {
-        List<PostMainDto> postMainDtoList = postRepository.findAllPostMainDtoOrderByCommentCount();
+    public PostAllResponseDto findAllPostsByCommentsCount(int limit, int page) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<PostMainDto> pagePostMainDtoList = postRepository.findAllPostMainDtoOrderByCommentCount(pageRequest);
+        List<PostMainDto> postMainDtoList = pagePostMainDtoList.getContent();
         return new PostAllResponseDto(postMainDtoList);
     }
 
