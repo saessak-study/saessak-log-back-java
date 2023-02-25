@@ -52,7 +52,7 @@ public class UserService {
     // 로그인
     public TokenDto login(UserLoginDto userLoginDto) {
         User findUser = userRepository.findOptionalByProfileId(userLoginDto.getProfileId())
-                .orElseThrow(()-> {
+                .orElseThrow(() -> {
                     throw new IllegalStateException("등록되지 않은 회원입니다.");
                 });
 
@@ -113,9 +113,10 @@ public class UserService {
                 userInformationDto.getProfileId(),
                 userInformationDto.getEmail(),
                 userInformationDto.getName());
-        
+
         return userInformationDto;
     }
+
     public Optional<User> findOne(Long userId) {
         return userRepository.findById(userId);
     }
@@ -123,12 +124,4 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
-
-    // 편의 기능 함수 추가 ---아연
-    public String findProfileIdByUserIdx (Long userIndex) {
-        User foundedUser = userRepository.findById(userIndex).orElseThrow(() -> new IllegalArgumentException());
-        return foundedUser.getProfileId();
-    }
-
 }

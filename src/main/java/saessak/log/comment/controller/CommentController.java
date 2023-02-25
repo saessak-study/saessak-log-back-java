@@ -1,6 +1,7 @@
 package saessak.log.comment.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,13 +31,15 @@ public class CommentController {
     private final CommentService commentService;
 
     @ApiOperation(value = "댓글 작성")
+    @ApiResponse(code = 200, message = "댓글을 작성하셨습니다.", response = String.class)
     @PostMapping("/comment")
     public ResponseEntity saveComment(@RequestBody CommentSaveDto commentSaveDto) {
         commentService.saveComment(commentSaveDto);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok("댓글을 작성하셨습니다.");
     }
 
     @ApiOperation(value = "댓글 페이징")
+    @ApiResponse(code = 200, message = "", response = CommentViewDto.class, responseContainer = "list")
     @GetMapping("/comment/{post}")
     public ResponseEntity<List<CommentViewDto>> fetchComment(@PathVariable(value = "post") Long post,
                                                              @RequestParam(value = "limit", required = false) Integer limit,
