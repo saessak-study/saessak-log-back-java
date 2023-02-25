@@ -37,7 +37,7 @@ public class PostController {
         @RequestParam(value = "limit", required = false) Integer limit,
         @RequestParam(value = "page", required = false) Integer page)
     {
-        PostAllResponseDto postResponseDto = postService.findAllPostsByLikeCount();
+        PostAllResponseDto postResponseDto = postService.findAllPostsByLikeCount(limit, page);
         return ResponseEntity.ok().body(postResponseDto);
     }
 
@@ -47,7 +47,7 @@ public class PostController {
         @RequestParam(value = "limit", required = false) Integer limit,
         @RequestParam(value = "page", required = false) Integer page)
     {
-        PostAllResponseDto postResponseDto = postService.findAllPostsByCommentsCount();
+        PostAllResponseDto postResponseDto = postService.findAllPostsByCommentsCount(limit, page);
         return ResponseEntity.ok().body(postResponseDto);
     }
 
