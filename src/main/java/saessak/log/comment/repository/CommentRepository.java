@@ -19,6 +19,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("SELECT new saessak.log.comment.dto.CommentViewDto(A.user.profileId, A.comment, A.createdDate) "
             + "FROM Comment A "
             + "WHERE A.post.id = :postId")
-    List<CommentViewDto> commentViewDto(@Param("postId") Long postId);
+    List<CommentViewDto> commentViewDto(@Param("postId") Long postId, Pageable pageable);
 
 }

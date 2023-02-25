@@ -41,8 +41,8 @@ public class CommentController {
     public ResponseEntity<List<CommentViewDto>> fetchComment(@PathVariable(value = "post") Long post,
                                                              @RequestParam(value = "limit", required = false) Integer limit,
                                                              @RequestParam(value = "page", required = false) Integer page
-                               ) {
-        List<CommentViewDto> list = commentService.fetchComments(post);
+    ) {
+        List<CommentViewDto> list = commentService.fetchComments(post, limit, page);
         return ResponseEntity.ok().body(list);
 
     }
