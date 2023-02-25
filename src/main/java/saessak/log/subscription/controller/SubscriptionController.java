@@ -4,7 +4,9 @@ package saessak.log.subscription.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +35,10 @@ public class SubscriptionController {
     @ApiResponse(code = 200, message = "구독하셨습니다.", response = BaseResponse.class)
     @GetMapping("/subscribe/{post}")
     public Object subscribe(@PathVariable(value = "post") Long post,
-                            @RequestBody SubscriptionDto subscriptionDto) {
+                            Authentication authentication) {
         Long toUserId = postService.findUserIndexByPostId(post);
-        Long fromUserId = subscriptionDto.getUser();
-        Boolean subscribe = subscriptionService.subscribe(fromUserId, toUserId);
+        String fromUserProfileId = authentication.getName();
+        Boolean subscribe = subscriptionService.subscribe(fromUserProfileId, toUserId);
         String responseMessage = "";
         if (subscribe) responseMessage = "구독하셨습니다.";
         else responseMessage = "구독을 취소하셨습니다.";
