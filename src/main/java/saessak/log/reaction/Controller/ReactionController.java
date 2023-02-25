@@ -29,9 +29,11 @@ public class ReactionController {
     private final ReactionService reactionService;
 
     @ApiOperation(
-            value = "좋아요 Toggle 기능"
+            value = "좋아요",
+            notes = "좋아요를 누르지 않은 게시글에 대해 호출시 좋아요, 이미 좋아요를 누른 게시글에 대해 호출시 좋아요 취소",
+            response = BaseResponse.class
     )
-    @ApiResponse(code = 200, message = "좋아요 기능을 키고 끄는 기능입니다.", response = BaseResponse.class)
+    @ApiResponse(code = 200, message = "좋아요 기능을 키고 끄는 기능입니다.")
     @PostMapping("/like/{post}")
     public Object reaction(@PathVariable(value = "post") Long post,
                            @RequestBody ReactionDto reactionDto) {
