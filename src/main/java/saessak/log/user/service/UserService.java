@@ -2,7 +2,6 @@ package saessak.log.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hibernate.annotations.NotFound;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,27 +93,26 @@ public class UserService {
     }
 
     // 비밀번호 변경
-    public void update(ChangePasswordDto changePasswordDto) {
+    public void updatePassword(String profileId, ChangePasswordDto changePasswordDto) {
 
-        if (changePasswordDto.getPassword().equals(changePasswordDto.getPasswordChek())) {
-            User findProfileId = userRepository.findOptionalByProfileId(changePasswordDto.getPassword())
+        if (changePasswordDto.getPassword().equals(changePasswordDto.getPasswordCheck())) {
+            User findUser = userRepository.findOptionalByProfileId(profileId)
                     .orElseThrow(() ->
-                            new IllegalStateException("등록되지 않은 비밀번호입니다."));
-
-            findProfileId.changeTempPassword(encoder.encode(changePasswordDto.getPassword()));
+                            new IllegalStateException("등록되지 않은 회원입니다."));
+             findUser.changeTempPassword(encoder.encode(changePasswordDto.getPassword()));
         } else {
             new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
     }
 
     // 마이페이지 유저정보(미완)
-    public UserInformationDto userInformation(UserInformationDto userInformationDto) {
-        Optional<User> findUserInfo = userRepository.findByUserInfo(
-                userInformationDto.getProfileId(),
-                userInformationDto.getEmail(),
-                userInformationDto.getName());
+    public void userInformation(String profileId) {
+        User findInformation = userRepository.findByProfileId(profileId);
 
-        return userInformationDto;
+        ResponseUserInformationDto userInformationDto = new ResponseUserInformationDto();
+        userInformationDto.setProfileId(findInformation.getProfileId());
+        userInformationDto.setEmail(findInformation.getEmail());
+        userInformationDto.setName(findInformation.getName());
     }
 
     public Optional<User> findOne(Long userId) {

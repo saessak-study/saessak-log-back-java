@@ -4,8 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import saessak.log.jwt.TokenProvider;
 import saessak.log.jwt.dto.TokenDto;
 import saessak.log.user.dto.*;
 import saessak.log.user.service.UserService;
@@ -53,22 +53,27 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 찾기")
     @PostMapping("/resetPassword")
-    public ResponseEntity<ResponseResetPasswordDto> findPassword(@RequestBody UserFindPasswordDto userFindPasswordDto) {
+    public ResponseEntity<ResponseResetPasswordDto> findPassword(
+            @RequestBody UserFindPasswordDto userFindPasswordDto) {
         ResponseResetPasswordDto resetPassword = userService.findPassword(userFindPasswordDto);
         return ResponseEntity.status(HttpStatus.OK).body(resetPassword);
     }
 
     @ApiOperation(value = "비밀번호 변경")
-    @PatchMapping("/update")
-    public ResponseEntity update(@RequestBody ChangePasswordDto changePasswordDto) {
-        userService.update(changePasswordDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @PatchMapping("/updatePassword")
+    public ResponseEntity updatePassword(
+            @RequestBody ChangePasswordDto changePasswordDto, Authentication authentication) {
+        String profileId = authentication.getName();
+        userService.updatePassword(profileId, changePasswordDto);
+        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
     }
 
-    @ApiOperation(value = "마이페이지 미완")
-    @PostMapping("/information")
-    public ResponseEntity<UserInformationDto> userInformation(@RequestBody UserInformationDto userInformationDto){
-        userService.userInformation(userInformationDto);
+    @ApiOperation(value = "마이페이지")
+    @GetMapping("/information")
+    public ResponseEntity<ResponseUserInformationDto> userInformation(Authentication authentication){
+        String profileId = authentication.getName();
+        userService.userInformation(profileId);
+        ResponseUserInformationDto userInformationDto = new ResponseUserInformationDto();
         return ResponseEntity.ok().body(userInformationDto);
     }
 }
