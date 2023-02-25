@@ -13,4 +13,5 @@ import saessak.log.user.User;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
+    Subscription findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 }

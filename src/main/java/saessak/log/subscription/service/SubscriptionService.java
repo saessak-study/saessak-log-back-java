@@ -22,14 +22,20 @@ public class SubscriptionService {
     final SubscriptionRepository subscriptionRepository;
 
     @Transactional
-    public Long subscribe(Long fromUserId, Long toUserId) {
-        Subscription subscription = new Subscription();
-        User fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new IllegalArgumentException());
-        User toUser = userRepository.findById(toUserId).orElseThrow(() -> new IllegalArgumentException());
-        subscription.setToUserId(toUser);
-        subscription.setFromUserId(fromUser);
-        subscription = subscriptionRepository.save(subscription);
-        return subscription.getId();
+    public Boolean subscribe(Long fromUserId, Long toUserId) {
+        Subscription previousSubscription = subscriptionRepository.findByFromUserIdAndToUserId(fromUserId, toUserId);
+        if (previousSubscription == null) {
+            Subscription subscription = new Subscription();
+            User fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new IllegalArgumentException());
+            User toUser = userRepository.findById(toUserId).orElseThrow(() -> new IllegalArgumentException());
+            subscription.setToUserId(toUser);
+            subscription.setFromUserId(fromUser);
+            subscriptionRepository.save(subscription);
+            return true;
+        } else {
+            subscriptionRepository.deleteById(previousSubscription.getId());
+            return false;
+        }
     }
 
 }
