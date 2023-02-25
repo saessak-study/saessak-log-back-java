@@ -8,6 +8,7 @@ import io.swagger.annotations.Example;
 import io.swagger.annotations.ExampleProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,13 +30,15 @@ public class ReactionController {
     private final ReactionService reactionService;
 
     @ApiOperation(
-            value = "좋아요 Toggle 기능"
+            value = "좋아요",
+            notes = "좋아요를 누르지 않은 게시글에 대해 호출시 좋아요, 이미 좋아요를 누른 게시글에 대해 호출시 좋아요 취소",
+            response = BaseResponse.class
     )
-    @ApiResponse(code = 200, message = "좋아요 기능을 키고 끄는 기능입니다.", response = BaseResponse.class)
-    @PostMapping("/like/{post}")
+    @ApiResponse(code = 200, message = "좋아요 기능을 키고 끄는 기능입니다.")
+    @GetMapping("/like/{post}")
     public Object reaction(@PathVariable(value = "post") Long post,
-                           @RequestBody ReactionDto reactionDto) {
-        boolean like = reactionService.reaction(post, reactionDto.getUserId());
+                           Authentication authentication) {
+        boolean like = reactionService.reaction(post, authentication.getName());
         String responseMessage;
         if (like) responseMessage = "해당 게시글을 좋아합니다.";
         else responseMessage = "해당 게시글의 좋아요를 해제합니다.";

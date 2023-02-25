@@ -21,12 +21,12 @@ public class ReactionService {
     final ReactionRepository reactionRepository;
 
     @Transactional
-    public boolean reaction(Long postId, Long userId) {
-        Reaction previousReaction = reactionRepository.findByUserAndPost(userId, postId);
+    public boolean reaction(Long postId, String userProfileId) {
+        User user = userRepository.findByProfileId(userProfileId);
+        Reaction previousReaction = reactionRepository.findByUserIdxAndPostIdx(user.getId(), postId);
         if (previousReaction == null) {
             Reaction reaction = new Reaction();
             Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException());
-            User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException());
             reaction.setUser(user);
             reaction.setPost(post);
             reactionRepository.save(reaction);
