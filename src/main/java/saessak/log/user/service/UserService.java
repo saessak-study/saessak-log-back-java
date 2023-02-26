@@ -93,6 +93,7 @@ public class UserService {
     }
 
     // 비밀번호 변경
+    @Transactional
     public void updatePassword(String profileId, ChangePasswordDto changePasswordDto) {
 
         if (changePasswordDto.getPassword().equals(changePasswordDto.getPasswordCheck())) {
@@ -105,21 +106,15 @@ public class UserService {
         }
     }
 
-    // 마이페이지 유저정보(미완)
-    public void userInformation(String profileId) {
-        User findInformation = userRepository.findByProfileId(profileId);
+    // 마이페이지 유저정보
+    public ResponseUserInformationDto userInformation(String profileId) {
+        User findUser = userRepository.findByProfileId(profileId);
 
         ResponseUserInformationDto userInformationDto = new ResponseUserInformationDto();
-        userInformationDto.setProfileId(findInformation.getProfileId());
-        userInformationDto.setEmail(findInformation.getEmail());
-        userInformationDto.setName(findInformation.getName());
+        userInformationDto.setProfileId(findUser.getProfileId());
+        userInformationDto.setEmail(findUser.getEmail());
+        userInformationDto.setName(findUser.getName());
+        return userInformationDto;
     }
 
-    public Optional<User> findOne(Long userId) {
-        return userRepository.findById(userId);
-    }
-
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
 }
