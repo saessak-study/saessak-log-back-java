@@ -5,12 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import saessak.log.comment.repository.CommentRepository;
-import saessak.log.jwt.dto.TokenToUserDto;
 import saessak.log.post.Post;
-import saessak.log.post.dto.PostMainDto;
-import saessak.log.post.dto.PostAllResponseDto;
-import saessak.log.post.dto.PostResponseDto;
+import saessak.log.post.dto.*;
 import saessak.log.post.repository.PostRepository;
 import saessak.log.post_media.PostMedia;
 import saessak.log.post_media.dto.PostMediaSaveDto;
@@ -66,4 +62,14 @@ public class PostService {
         return foundedPost.getUser().getId();
     }
 
+    public MyActivitiesResponse getMyActivity(String profileId, Integer page, Integer limit) {
+        User findUser = userRepository.findByProfileId(profileId);
+        Long userId = findUser.getId();
+
+        PageRequest pageRequest = PageRequest.of(page, limit);
+
+        Page<PostMyActivityDto> pageMyPost = postRepository.findMyPost(userId, pageRequest);
+        List<PostMyActivityDto> myActivityPosts = pageMyPost.getContent();
+        return new MyActivitiesResponse(myActivityPosts);
+    }
 }
