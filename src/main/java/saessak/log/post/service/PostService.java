@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.comment.repository.CommentRepository;
-import saessak.log.jwt.dto.TokenToUserDto;
 import saessak.log.post.Post;
 import saessak.log.post.dto.PostMainDto;
 import saessak.log.post.dto.PostAllResponseDto;
