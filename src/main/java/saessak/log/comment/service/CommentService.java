@@ -33,7 +33,7 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setComment(commentSaveDto.getComment());
         comment.setUser(user);
-        comment.setPost(post);
+        comment.belongToPost(post);
         comment = commentRepository.save(comment);
 
         return comment.getId();

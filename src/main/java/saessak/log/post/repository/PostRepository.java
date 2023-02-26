@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import saessak.log.comment.Comment;
 import saessak.log.post.Post;
 import saessak.log.post.dto.PostMainDto;
+import saessak.log.post.dto.PostMyActivityDto;
 import saessak.log.post.dto.PostResponseDto;
 
 import java.util.List;
@@ -42,4 +43,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         " where p.id = :postId")
     PostResponseDto findPostById(@Param("postId") Long postId);
 
+    @Query("select new saessak.log.post.dto.PostMyActivityDto(pm.imageFile, count(distinct c), count(distinct r))" +
+        " from Post p" +
+        " left join p.user u" +
+        " left join p.postMedia pm" +
+        " left join p.comments c" +
+        " left join p.reactions r" +
+        " where u.id = :userId" +
+        " group by p.id" +
+        " order by p.createdDate desc")
+    Page<PostMyActivityDto> findMyPost(@Param("userId")Long userId, Pageable pageable);
 }

@@ -67,7 +67,7 @@ public class UserController {
 
     @ApiOperation(value = "마이페이지 미완")
     @PostMapping("/information")
-    public ResponseEntity<UserInformationDto> userInformation(@RequestBody UserInformationDto userInformationDto){
+    public ResponseEntity<UserInformationDto> userInformation(@RequestBody UserInformationDto userInformationDto) {
         userService.userInformation(userInformationDto);
         return ResponseEntity.ok().body(userInformationDto);
     }
