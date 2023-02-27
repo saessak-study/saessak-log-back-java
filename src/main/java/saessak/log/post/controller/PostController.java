@@ -4,17 +4,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import saessak.log.post.dto.MyActivitiesResponse;
 import saessak.log.post.dto.PostAllResponseDto;
 import saessak.log.post.dto.PostResponseDto;
 import saessak.log.post.service.PostService;
 import saessak.log.post_media.dto.PostMediaSaveDto;
-import saessak.log.post_media.service.PostMediaService;
-import saessak.log.user.User;
-import saessak.log.user.repository.UserRepository;
 
+import java.io.IOException;
 import java.util.Base64;
 
 @RequiredArgsConstructor
@@ -42,9 +40,28 @@ public class PostController {
     @PostMapping("/new2")
     public ResponseEntity savePost2(@RequestBody PostMediaSaveDto postMediaSaveDto, Authentication authentication) {
         String profileId = authentication.getName();
+        ResponseEntity<String> stringResponseEntity = postService.savePost2(profileId, postMediaSaveDto);
         String imageFileData = postMediaSaveDto.getImageFile().split(",")[1];
         byte[] imageBytes = Base64.getDecoder().decode(imageFileData);
-        return ResponseEntity.ok().body(imageBytes);
+        return ResponseEntity.ok().body(stringResponseEntity);
+    }
+
+    @PostMapping("/new3")
+    public ResponseEntity savePost3(@RequestParam String postText,
+                                    @RequestParam MultipartFile file, Authentication authentication) throws IOException {
+        String profileId = authentication.getName();
+        ResponseEntity<String> stringResponseEntity = postService.savePost3(profileId, postText, file);
+
+        return ResponseEntity.ok().body(stringResponseEntity);
+    }
+
+    @PostMapping("/new4")
+    public ResponseEntity savePost4(@RequestParam String postText,
+                                    @RequestParam MultipartFile file, Authentication authentication) throws IOException {
+        String profileId = authentication.getName();
+        ResponseEntity<String> stringResponseEntity = postService.savePost4(profileId, postText, file);
+
+        return ResponseEntity.ok().body(stringResponseEntity);
     }
 
     @ApiOperation(value = "메인 페이지 - 좋아요 순")

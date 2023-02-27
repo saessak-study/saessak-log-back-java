@@ -93,6 +93,7 @@ public class UserService {
     }
 
     // 비밀번호 변경
+    @Transactional
     public void updatePassword(String profileId, ChangePasswordDto changePasswordDto) {
 
         if (changePasswordDto.getPassword().equals(changePasswordDto.getPasswordCheck())) {

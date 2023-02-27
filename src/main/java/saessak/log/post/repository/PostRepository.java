@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select new saessak.log.post.dto.PostMainDto(pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
         "from Post p left join p.postMedia pm " +
         "left join p.comments c " +
         "left join p.reactions r " +
@@ -26,7 +26,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "order by likeCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByLikeCount(Pageable pageable);
 
-    @Query("select new saessak.log.post.dto.PostMainDto(pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
         "from Post p left join p.postMedia pm " +
         "left join p.comments c " +
         "left join p.reactions r " +
