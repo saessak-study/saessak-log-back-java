@@ -34,11 +34,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "order by commentCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByCommentCount(Pageable pageable);
 
-    @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, pm.imageFile," +
-        " pm.postText, count(r))" +
+    @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, count(r))" +
         " from Post p" +
         " left join p.user u" +
-        " left join p.postMedia pm" +
         " left join p.reactions r" +
         " where p.id = :postId")
     PostResponseDto findPostById(@Param("postId") Long postId);
