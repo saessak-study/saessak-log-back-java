@@ -1,5 +1,7 @@
 package saessak.log.post.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -24,7 +26,6 @@ import saessak.log.user.repository.UserRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +56,8 @@ public class PostService {
 
     @Transactional
     public ResponseEntity<String> savePost2(String profileId, PostMediaSaveDto postMediaSaveDto) {
-        String imageFile = postMediaSaveDto.getImageFile().split(",")[1];
-        String pythonApiUrl = "http://192.168.0.176:5000/file_upload";
+        String imageFile = postMediaSaveDto.getImageFile();
+        String pythonApiUrl = "http://localhost:5000/file_upload";
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -65,8 +66,13 @@ public class PostService {
         Map<String, String> imageFileMap = new HashMap<>();
         imageFileMap.put("imageFile", imageFile);
         log.info("imageFileMap={}", imageFileMap);
-
-        HttpEntity<String> request = new HttpEntity<>(imageFileMap.toString(), headers);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpEntity<String> request = null;
+        try {
+            request = new HttpEntity<>(mapper.writeValueAsString(imageFileMap).toString(), headers);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         ResponseEntity<String> response = restTemplate.postForEntity(pythonApiUrl, request, String.class);
         log.info("response={}", response);
 
