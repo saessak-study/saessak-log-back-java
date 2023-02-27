@@ -73,8 +73,7 @@ public class UserController {
     @GetMapping("/information")
     public ResponseEntity<ResponseUserInformationDto> userInformation(Authentication authentication){
         String profileId = authentication.getName();
-        userService.userInformation(profileId);
-        ResponseUserInformationDto userInformationDto = new ResponseUserInformationDto();
+        ResponseUserInformationDto userInformationDto = userService.userInformation(profileId);
         return ResponseEntity.ok().body(userInformationDto);
     }
 }
