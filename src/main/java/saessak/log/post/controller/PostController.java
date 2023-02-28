@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import saessak.log.post.dto.MyActivitiesResponse;
 import saessak.log.post.dto.PostAllResponseDto;
 import saessak.log.post.dto.PostResponseDto;
+import saessak.log.post.dto.PostSaveResponseDto;
 import saessak.log.post.service.PostService;
 import saessak.log.post_media.dto.PostMediaSaveDto;
 
@@ -26,12 +27,13 @@ public class PostController {
 
     @ApiOperation(value = "게시글 저장")
     @PostMapping("/new")
-    public ResponseEntity savePost(@RequestParam String postText,
-                                    @RequestParam MultipartFile file, Authentication authentication) throws IOException {
+    public ResponseEntity<PostSaveResponseDto> savePost(@RequestParam String postText,
+                                                        @RequestParam MultipartFile file, Authentication authentication) throws IOException {
         String profileId = authentication.getName();
         Long savedPostId = postService.savePost(profileId, postText, file);
+        PostSaveResponseDto PostSaveResponseDto = new PostSaveResponseDto(savedPostId);
 
-        return ResponseEntity.ok().body(savedPostId);
+        return ResponseEntity.ok().body(PostSaveResponseDto);
     }
 
     @ApiOperation(value = "메인 페이지 - 좋아요 순")
