@@ -41,7 +41,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         " where p.id = :postId")
     PostResponseDto findPostById(@Param("postId") Long postId);
 
-    @Query("select new saessak.log.post.dto.PostMyActivityDto(pm.imageFile, count(distinct c), count(distinct r))" +
+    @Query("select new saessak.log.post.dto.PostMyActivityDto(p.id, pm.imageFile, count(distinct c), count(distinct r))" +
         " from Post p" +
         " left join p.user u" +
         " left join p.postMedia pm" +
