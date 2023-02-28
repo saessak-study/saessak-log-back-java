@@ -46,9 +46,9 @@ public class SecurityConfig {
                     .authorizeRequests()
                         .antMatchers("/user").permitAll() // user 권한 허용 // 이거 다시
                         .antMatchers("/user/join", "/user/login", "/user/duplicate", "/user/findId", "/user/resetPassword").permitAll() // join, login 허용
-                .antMatchers(HttpMethod.POST, "/comments/**", "/posts/**").authenticated() // 아니면 /*까지 해보기.
-                .antMatchers("/subscribe/**").authenticated()
-                .antMatchers("/like/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/comments/**", "/posts/**").authenticated() // 아니면 /*까지 해보기.
+                        .antMatchers("/subscribe/**").authenticated()
+                        .antMatchers("/like/**").authenticated()
 //                .antMatchers(HttpMethod.GET, "/coments", "/posts").authenticated()
                 .and()
                     .sessionManagement()

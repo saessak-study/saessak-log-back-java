@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select new saessak.log.post.dto.PostMainDto(pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
         "from Post p left join p.postMedia pm " +
         "left join p.comments c " +
         "left join p.reactions r " +
@@ -26,7 +26,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "order by likeCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByLikeCount(Pageable pageable);
 
-    @Query("select new saessak.log.post.dto.PostMainDto(pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
         "from Post p left join p.postMedia pm " +
         "left join p.comments c " +
         "left join p.reactions r " +
@@ -34,16 +34,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "order by commentCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByCommentCount(Pageable pageable);
 
-    @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, pm.imageFile," +
-        " pm.postText, count(r))" +
+    @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, count(r))" +
         " from Post p" +
         " left join p.user u" +
-        " left join p.postMedia pm" +
         " left join p.reactions r" +
         " where p.id = :postId")
     PostResponseDto findPostById(@Param("postId") Long postId);
 
-    @Query("select new saessak.log.post.dto.PostMyActivityDto(pm.imageFile, count(distinct c), count(distinct r))" +
+    @Query("select new saessak.log.post.dto.PostMyActivityDto(p.id, pm.imageFile, count(distinct c), count(distinct r))" +
         " from Post p" +
         " left join p.user u" +
         " left join p.postMedia pm" +

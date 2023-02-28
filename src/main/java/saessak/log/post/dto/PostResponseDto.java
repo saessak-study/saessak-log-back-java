@@ -17,10 +17,8 @@ public class PostResponseDto {
     private String postText;
     private long likeCount;
 
-    public PostResponseDto(String profileId, String imageFile, String postText, long likeCount) {
+    public PostResponseDto(String profileId, long likeCount) {
         this.profileId = profileId;
-        this.imageFile = imageFile;
-        this.postText = postText;
         this.likeCount = likeCount;
     }
 }
