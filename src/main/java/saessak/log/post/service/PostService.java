@@ -113,4 +113,13 @@ public class PostService {
         List<PostMyActivityDto> myActivityPosts = pageMyPost.getContent();
         return new MyActivitiesResponse(myActivityPosts);
     }
+
+    public SubscribePostResponse getSubscribedPosts(String profileId, int page, int limit) {
+        User findUser = userRepository.findByProfileId(profileId);
+        Long userId = findUser.getId();
+
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        List<SubscribePostDto> subscribedPostList = postRepository.findSubscribedPosts(userId, pageRequest);
+        return new SubscribePostResponse(subscribedPostList);
+    }
 }
