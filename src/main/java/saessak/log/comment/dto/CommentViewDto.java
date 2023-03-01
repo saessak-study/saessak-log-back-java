@@ -16,15 +16,17 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class CommentViewDto {
 
+    private Long commentId;
     private String profileId;
     private String comment;
     private LocalDateTime createdDate;
 
-    public CommentViewDto(
+    public CommentViewDto(Long commentId,
             String profileId,
             String comment,
             LocalDateTime createdDate
     ) {
+        this.commentId = commentId;
         this.profileId = profileId;
         this.comment = comment;
         this.createdDate = createdDate;

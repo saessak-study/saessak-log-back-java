@@ -19,20 +19,22 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
-            "from Post p left join p.postMedia pm " +
-            "left join p.comments c " +
-            "left join p.reactions r " +
-            "group by p.id " +
-            "order by likeCount desc")
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, u.profileId, pm.imageFile, count(distinct c), count(distinct r) as likeCount) " +
+        "from Post p left join p.postMedia pm " +
+        "left join p.comments c " +
+        "left join p.reactions r " +
+        "left join p.user u " +
+        "group by p.id " +
+        "order by likeCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByLikeCount(Pageable pageable);
 
-    @Query("select new saessak.log.post.dto.PostMainDto(p.id, pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
-            "from Post p left join p.postMedia pm " +
-            "left join p.comments c " +
-            "left join p.reactions r " +
-            "group by p.id " +
-            "order by commentCount desc")
+    @Query("select new saessak.log.post.dto.PostMainDto(p.id, u.profileId, pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
+        "from Post p left join p.postMedia pm " +
+        "left join p.comments c " +
+        "left join p.reactions r " +
+        "left join p.user u " +
+        "group by p.id " +
+        "order by commentCount desc")
     Page<PostMainDto> findAllPostMainDtoOrderByCommentCount(Pageable pageable);
 
     @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, count(r))" +

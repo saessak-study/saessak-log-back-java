@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("SELECT new saessak.log.comment.dto.CommentViewDto(A.user.profileId, A.comment, A.createdDate) "
+    @Query("SELECT new saessak.log.comment.dto.CommentViewDto(A.id, A.user.profileId, A.comment, A.createdDate) "
             + "FROM Comment A "
             + "WHERE A.post.id = :postId")
     List<CommentViewDto> commentViewDto(@Param("postId") Long postId, Pageable pageable);
