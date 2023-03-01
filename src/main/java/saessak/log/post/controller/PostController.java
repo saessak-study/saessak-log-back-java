@@ -11,6 +11,7 @@ import saessak.log.post.dto.MyActivitiesResponse;
 import saessak.log.post.dto.PostAllResponseDto;
 import saessak.log.post.dto.PostResponseDto;
 import saessak.log.post.dto.PostSaveResponseDto;
+import saessak.log.post.dto.SubscribePostResponse;
 import saessak.log.post.service.PostService;
 import saessak.log.post_media.dto.PostMediaSaveDto;
 
@@ -74,5 +75,17 @@ public class PostController {
         String profileId = authentication.getName();
         MyActivitiesResponse myActivityPosts = postService.getMyActivity(profileId, page, limit);
         return ResponseEntity.ok().body(myActivityPosts);
+    }
+
+    @ApiOperation(value = "구독함")
+    @GetMapping("/subscribe")
+    public ResponseEntity<SubscribePostResponse> subscribePost(
+            @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            Authentication authentication) {
+
+        String profileId = authentication.getName();
+        SubscribePostResponse subscribePosts = postService.getSubscribedPosts(profileId, page,limit);
+        return ResponseEntity.ok().body(subscribePosts);
     }
 }
