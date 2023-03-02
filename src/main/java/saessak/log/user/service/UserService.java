@@ -26,6 +26,7 @@ public class UserService {
     // 회원가입
     @Transactional
     public Long join(UserJoinDto userJoinDto) {
+        duplicateEmail(userJoinDto);
         if (userJoinDto.getPassword().equals(userJoinDto.getPasswordCheck())) {
             User user = User.builder()
                     .profileId(userJoinDto.getProfileId())
@@ -38,6 +39,14 @@ public class UserService {
         }
         throw new RuntimeException("입력하신 password 가 일치하지 않습니다.");
 
+    }
+
+    // email 중복검사
+    private void duplicateEmail(UserJoinDto userJoinDto) {
+        userRepository.findByEmail(userJoinDto.getEmail())
+                .ifPresent(e ->{
+                    throw new RuntimeException("중복된 이메일입니다.");
+                });
     }
 
     // profileId 중복검사
