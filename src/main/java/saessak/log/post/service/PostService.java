@@ -62,10 +62,17 @@ public class PostService {
         Post post = Post.from(user);
         Post savedPost = postRepository.save(post);
 
+        //1. 이미지 태그 기능 사용 시 : 먼저 저장방법
+        //response에 imageFileName 이랑 이미지에서 추출한 태그 List(?)가 아마 들어있을듯.
+        //imageFileName 은 기존과 똑같이 값을 가져와서 (getBody에서 바뀔듯. body의 값이 2개가 되면) PostMedia 에 저장.
+        // tag 값은 일단 1번 : List로 들어오면 이거를 String 으로 (예시 : "a,b,c"처럼 바꿔서 PostMedia에 컬럼을 imageTag 같이 하나 만들어서) 저장.
+        //  -> 밑에처럼 3개의 값으로 postMediaRepository 에 저장.
+        // 2. 저장이후 게시글 조회 시 : 현재 보여주는 값에 + 태그값? imageTag 는 보내줄지 프론트에 물어보기.
+        // 3. 검색 기능 추가 시 : 아마 태그로 검색?
+        // 태그로 postMedia에서 검색해서 맞는 값을 가져옴. 쿼리의 like 절? 보여주는 거는 전체 조회처럼 보내주면 될듯.
         String imageFileName = response.getBody();
         log.info("imageFileName={}", imageFileName);
 
-        // postMedia의 postText에 저장
         PostMedia postMedia = PostMedia.of(imageFileName, postText);
         postMedia.belongToPost(post);
         postMediaRepository.save(postMedia);
@@ -73,7 +80,7 @@ public class PostService {
         return savedPost.getId();
     }
 
-    public PostResponseDto findPost(Long postId) throws JsonProcessingException {
+    public PostResponseDto findPost(Long postId) {
         PostMedia postMedia = postMediaRepository.findByPostId(postId);
         String imageFileName = postMedia.getImageFile();
 
