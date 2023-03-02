@@ -12,7 +12,7 @@ public class PostMyActivityDto {
 
     public PostMyActivityDto(Long postId, String imageFile, long commentCount, long reactionCount) {
         this.postId = postId;
-        this.imageFile = imageFile;
+        this.imageFile = "https://saessaklogfile.s3.ap-northeast-2.amazonaws.com/image/" + imageFile;
         this.commentCount = commentCount;
         this.reactionCount = reactionCount;
     }
