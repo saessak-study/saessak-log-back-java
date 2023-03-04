@@ -25,7 +25,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "left join p.reactions r " +
         "left join p.user u " +
         "group by p.id " +
-        "order by likeCount desc")
+        "order by likeCount desc, p.createdDate desc")
     Page<PostMainDto> findAllPostMainDtoOrderByLikeCount(Pageable pageable);
 
     @Query("select new saessak.log.post.dto.PostMainDto(p.id, u.profileId, pm.imageFile, count(distinct c) as commentCount, count(distinct r)) " +
@@ -34,7 +34,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "left join p.reactions r " +
         "left join p.user u " +
         "group by p.id " +
-        "order by commentCount desc")
+        "order by commentCount desc, p.createdDate desc")
     Page<PostMainDto> findAllPostMainDtoOrderByCommentCount(Pageable pageable);
 
     @Query("select new saessak.log.post.dto.PostResponseDto(u.profileId, count(r))" +
