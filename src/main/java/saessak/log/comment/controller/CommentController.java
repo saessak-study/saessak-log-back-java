@@ -37,7 +37,7 @@ public class CommentController {
 
 
     @ApiOperation(value = "댓글 작성")
-    @ApiResponse(code = 200, message = "댓글을 작성하셨습니다.", response = String.class)
+    @ApiResponse(code = 200, message = "댓글을 작성하셨습니다.", response = CommentSaveResponseDto.class)
     @PostMapping("/comment")
     public ResponseEntity<CommentSaveResponseDto> saveComment(@RequestBody CommentSaveDto commentSaveDto, Authentication authentication) {
         String userProfileId = authentication.getName();
