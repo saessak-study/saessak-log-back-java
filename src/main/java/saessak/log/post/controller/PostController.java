@@ -68,8 +68,13 @@ public class PostController {
 
     @ApiOperation(value = "게시글 단건 조회")
     @GetMapping("/{postId}")
-    public ResponseEntity<PostResponseDto> post(@PathVariable("postId") Long postId) throws JsonProcessingException {
-        PostResponseDto postResponseDto = postService.findPost(postId);
+    public ResponseEntity<PostResponseDto> post(
+            @PathVariable("postId") Long postId,
+            Authentication authentication
+    ) throws JsonProcessingException {
+        String userProfileId = null;
+        if (authentication != null) userProfileId = authentication.getName();
+        PostResponseDto postResponseDto = postService.findPost(postId, userProfileId);
         return ResponseEntity.ok().body(postResponseDto);
     }
 

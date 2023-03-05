@@ -80,13 +80,13 @@ public class PostService {
         return savedPost.getId();
     }
 
-    public PostResponseDto findPost(Long postId) {
-        PostMedia postMedia = postMediaRepository.findByPostId(postId);
-        String imageFileName = postMedia.getImageFile();
-
-        PostResponseDto postResponseDto = postRepository.findPostById(postId);
-        postResponseDto.setPostText(postMedia.getPostText());
-        postResponseDto.setImageFile("https://saessaklogfile.s3.ap-northeast-2.amazonaws.com/image/" + imageFileName);
+    public PostResponseDto findPost(Long postId, String userProfileId) {
+        User user = userRepository.findByProfileId(userProfileId);
+        PostResponseDto postResponseDto;
+        if (user == null)
+            postResponseDto = postRepository.findPostDetailById(postId);
+        else
+            postResponseDto = postRepository.findPostDetailById(postId, user.getId());
         return postResponseDto;
     }
 
