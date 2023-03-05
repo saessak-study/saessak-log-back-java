@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ import saessak.log.comment.dto.CommentSaveDto;
 import saessak.log.comment.dto.CommentSaveResponseDto;
 import saessak.log.comment.dto.CommentViewDto;
 import saessak.log.comment.service.CommentService;
+import saessak.log.user.User;
+import saessak.log.user.service.UserService;
 
 import java.util.List;
 
@@ -30,12 +33,15 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final UserService userService;
+
 
     @ApiOperation(value = "댓글 작성")
     @ApiResponse(code = 200, message = "댓글을 작성하셨습니다.", response = String.class)
     @PostMapping("/comment")
-    public ResponseEntity<CommentSaveResponseDto> saveComment(@RequestBody CommentSaveDto commentSaveDto) {
-        Long savedComment = commentService.saveComment(commentSaveDto);
+    public ResponseEntity<CommentSaveResponseDto> saveComment(@RequestBody CommentSaveDto commentSaveDto, Authentication authentication) {
+        String userProfileId = authentication.getName();
+        Long savedComment = commentService.saveComment(commentSaveDto, userProfileId);
         CommentSaveResponseDto commentSaveResponseDto = new CommentSaveResponseDto(savedComment);
         return ResponseEntity.ok().body(commentSaveResponseDto);
     }

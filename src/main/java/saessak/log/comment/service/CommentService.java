@@ -27,9 +27,9 @@ public class CommentService {
     final UserRepository userRepository;
 
     @Transactional
-    public Long saveComment(CommentSaveDto commentSaveDto) {
+    public Long saveComment(CommentSaveDto commentSaveDto, String userProfileId) {
+        User user = userRepository.findByProfileId(userProfileId);
         Post post = postRepository.findById(commentSaveDto.getPost()).orElseThrow(() -> new IllegalArgumentException());
-        User user = userRepository.findById(commentSaveDto.getUser()).orElseThrow(() -> new IllegalArgumentException());
         Comment comment = new Comment();
         comment.setComment(commentSaveDto.getComment());
         comment.setUser(user);
@@ -40,7 +40,7 @@ public class CommentService {
     }
 
     public List<CommentViewDto> fetchComments(Long postId, int limit, int page) {
-        return commentRepository.commentViewDto(postId, PageRequest.of(page,limit));
+        return commentRepository.commentViewDto(postId, PageRequest.of(page, limit));
     }
 
 }

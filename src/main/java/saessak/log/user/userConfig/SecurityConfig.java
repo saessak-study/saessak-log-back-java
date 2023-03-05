@@ -49,6 +49,8 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/comments/**", "/posts/**").authenticated() // 아니면 /*까지 해보기.
                         .antMatchers("/subscribe/**").authenticated()
                         .antMatchers("/like/**").authenticated()
+                        .antMatchers(HttpMethod.GET,"/posts/likeCount").permitAll()
+                        .antMatchers(HttpMethod.GET,"/posts/commentsCount").permitAll()
 //                .antMatchers(HttpMethod.GET, "/coments", "/posts").authenticated()
                 .and()
                     .sessionManagement()
