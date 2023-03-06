@@ -7,12 +7,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saessak.log.jwt.TokenProvider;
 import saessak.log.jwt.dto.TokenDto;
+import saessak.log.reaction.Reaction;
+import saessak.log.reaction.repository.ReactionRepository;
+import saessak.log.subscription.Subscription;
+import saessak.log.subscription.repository.SubscriptionRepository;
 import saessak.log.user.User;
 import saessak.log.user.dto.*;
 import saessak.log.user.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +28,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final TokenProvider tokenProvider;
+    private final ReactionRepository reactionRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
     // 회원가입
     @Transactional
@@ -119,7 +127,16 @@ public class UserService {
     public ResponseUserInformationDto userInformation(String profileId) {
         User findUser = userRepository.findByProfileId(profileId);
 
+        List<Reaction> reactions = reactionRepository.findByUserIdx(findUser.getId());
+        List<Subscription> subscriptions = subscriptionRepository.findByFromUserID(findUser.getId());
+
         ResponseUserInformationDto userInformationDto = new ResponseUserInformationDto();
+
+        List<Long> reactionPostId = reactions.stream().map(reaction -> reaction.getPost().getId()).collect(Collectors.toList());
+        List<Long> subscriptionToUserId = subscriptions.stream().map(user -> user.getToUserId().getId()).collect(Collectors.toList());
+        userInformationDto.setSubscriptionToUserId(subscriptionToUserId);
+        userInformationDto.setReactionPostId(reactionPostId);
+        userInformationDto.setUserId(findUser.getId());
         userInformationDto.setProfileId(findUser.getProfileId());
         userInformationDto.setEmail(findUser.getEmail());
         userInformationDto.setName(findUser.getName());
