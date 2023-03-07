@@ -45,27 +45,36 @@ public class PostController {
     @ApiOperation(value = "메인 페이지 - 좋아요 순")
     @GetMapping("/likeCount")
     public ResponseEntity<PostAllResponseDto> mainPostsOrderByLikeCount(
-        @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page)
-    {
-        PostAllResponseDto postResponseDto = postService.findAllPostsByLikeCount(limit, page);
+            @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            Authentication authentication) {
+        String userProfileId = null;
+        if (authentication != null) userProfileId = authentication.getName();
+        PostAllResponseDto postResponseDto = postService.findAllPostsByLikeCount(userProfileId, limit, page);
         return ResponseEntity.ok().body(postResponseDto);
     }
 
     @ApiOperation(value = "메인 페이지 - 댓글 순")
     @GetMapping("/commentsCount")
     public ResponseEntity<PostAllResponseDto> mainPostsOrderByCommentsCount(
-        @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page)
-    {
-        PostAllResponseDto postResponseDto = postService.findAllPostsByCommentsCount(limit, page);
+            @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            Authentication authentication) {
+        String userProfileId = null;
+        if (authentication != null) userProfileId = authentication.getName();
+        PostAllResponseDto postResponseDto = postService.findAllPostsByCommentsCount(userProfileId, limit, page);
         return ResponseEntity.ok().body(postResponseDto);
     }
 
     @ApiOperation(value = "게시글 단건 조회")
     @GetMapping("/{postId}")
-    public ResponseEntity<PostResponseDto> post(@PathVariable("postId") Long postId) throws JsonProcessingException {
-        PostResponseDto postResponseDto = postService.findPost(postId);
+    public ResponseEntity<PostResponseDto> post(
+            @PathVariable("postId") Long postId,
+            Authentication authentication
+    ) throws JsonProcessingException {
+        String userProfileId = null;
+        if (authentication != null) userProfileId = authentication.getName();
+        PostResponseDto postResponseDto = postService.findPost(postId, userProfileId);
         return ResponseEntity.ok().body(postResponseDto);
     }
 
@@ -73,9 +82,9 @@ public class PostController {
     @ApiOperation(value = "내 활동")
     @GetMapping("/myActivity")
     public ResponseEntity<MyActivitiesResponse> userActivity(
-        @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-        Authentication authentication) {
+            @RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            Authentication authentication) {
 
         String profileId = authentication.getName();
         MyActivitiesResponse myActivityPosts = postService.getMyActivity(profileId, page, limit);
@@ -90,7 +99,7 @@ public class PostController {
             Authentication authentication) {
 
         String profileId = authentication.getName();
-        SubscribePostResponse subscribePosts = postService.getSubscribedPosts(profileId, page,limit);
+        SubscribePostResponse subscribePosts = postService.getSubscribedPosts(profileId, page, limit);
         return ResponseEntity.ok().body(subscribePosts);
     }
 }

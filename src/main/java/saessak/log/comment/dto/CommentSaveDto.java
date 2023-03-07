@@ -17,7 +17,6 @@ import javax.persistence.EntityListeners;
 public class CommentSaveDto {
 
     private Long post; // 포스트 idx
-    private Long user; // 코멘트 작성자 idx
     private String comment; //코멘트 내용
 
 }
